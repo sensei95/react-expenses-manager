@@ -1,4 +1,4 @@
-import { budgetsContext } from "./BudgetsContext";
+import {budgetsContext, UNCATEGORIZED_BUDGET_ID} from "./BudgetsContext";
 import { v4 as uuidV4 } from "uuid";
 
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -26,14 +26,24 @@ const BudgetsContextProvider = ({ children }) => {
     });
   };
 
-  const deleteBudget = ({ budgetId }) =>
-    setBudgets((prevBudgets) =>
-      prevBudgets.filter((budget) => budget.id !== budgetId)
-    );
+  const deleteBudget = ({ id }) => {
+      setExpenses((prevExpenses) => {
+          return prevExpenses.map((expense) => {
+              if (expense.budgetId !== id) return expense
 
-  const deleteExpense = ({ expenseId }) => {
+              return {...expense, budgetId: UNCATEGORIZED_BUDGET_ID}
+          })
+      })
+
+      setBudgets((prevBudgets) =>
+          prevBudgets.filter((budget) => budget.id !== id)
+      );
+  }
+
+
+  const deleteExpense = ({ id }) => {
     setExpenses((prevExpenses) =>
-      prevExpenses.filter((expense) => expense.id !== expenseId)
+      prevExpenses.filter((expense) => expense.id !== id)
     );
   };
 
