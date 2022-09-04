@@ -4,6 +4,6 @@
 
 - React context
 - React Hooks
-- Localastorage
+- Localstorage
 
 [Demo](https://budget-expenses-manager.netlify.app/)
